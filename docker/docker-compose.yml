@@ -5,14 +5,14 @@ services:
     environment:
       - POSTGRES_PASSWORD=password
       - POSTGRES_USER=postgres
-      - POSTGRES_DB=inventory
+      - POSTGRES_DB=ms
     ports:
-      - 5434:5432
-  postgresqltest:
+      - 5432:5432
+  postgresqlt:
     image: postgres:latest
     environment:
       - POSTGRES_PASSWORD=password
       - POSTGRES_USER=postgres
-      - POSTGRES_DB=inventory
+      - POSTGRES_DB=ms
     ports:
-      - 5435:5432
+      - 5433:5432

@@ -1,0 +1,11 @@
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: true
+    show-sql: false
+  datasource:
+    url: jdbc:postgresql://localhost:5433/ms
+    password: password
+    username: postgres
