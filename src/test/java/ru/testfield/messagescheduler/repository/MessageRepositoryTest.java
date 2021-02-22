@@ -31,20 +31,35 @@ public class MessageRepositoryTest {
         saveClient(testDataProvider.supplyClient());
         assertEquals(1, clientRepository.count());
 
-        final Addressee addressee = addresseeRepository.findAll().get(0);
-        final Client client = clientRepository.findAll().get(0);
-
-        createMessage(addressee,client,"text to send1");
-        createMessage(addressee,client,"text to send2");
-        createMessage(addressee,client,"text to send3");
-
-        assertEquals(3, messageRepository.count());
+        saveTest();
+        countTest();
+        findByStatusTest();
 
         deleteAll();
     }
 
-    private void createMessage(Addressee addressee, Client client, String textToSend) {
-        final Message message = new Message(textToSend, client, addressee);
+    private void countTest() {
+        assertEquals(5, messageRepository.count());
+    }
+
+    private void saveTest() {
+        final Addressee addressee = addresseeRepository.findAll().get(0);
+        final Client client = clientRepository.findAll().get(0);
+        createMessage(addressee,client,"text to send1", Message.Status.SCHEDULED);
+        createMessage(addressee,client,"text to send2", Message.Status.SENT);
+        createMessage(addressee,client,"text to send3", Message.Status.CANCELED);
+        createMessage(addressee,client,"text to send4", Message.Status.SCHEDULED);
+        createMessage(addressee,client,"text to send5", Message.Status.SENT);
+    }
+
+    private void findByStatusTest() {
+        assertEquals(2, messageRepository.findByStatus(Message.Status.SCHEDULED).size());
+        assertEquals(2, messageRepository.findByStatus(Message.Status.SENT).size());
+        assertEquals(1, messageRepository.findByStatus(Message.Status.CANCELED).size());
+    }
+
+    private void createMessage(Addressee addressee, Client client, String textToSend, Message.Status status) {
+        final Message message = new Message(textToSend, client, addressee, status);
         messageRepository.save(message);
     }
 

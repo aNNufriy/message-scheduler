@@ -1,7 +1,11 @@
 package ru.testfield.messagescheduler.model;
 
-import javax.persistence.*;
+import lombok.Data;
 
+import javax.persistence.*;
+import java.time.ZonedDateTime;
+
+@Data
 @Entity
 public class Message {
     @Id
@@ -9,6 +13,8 @@ public class Message {
     private Long id;
 
     private String text;
+
+    private ZonedDateTime scheduledTime;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Client client;
@@ -22,10 +28,11 @@ public class Message {
     public Message() {
     }
 
-    public Message(String text, Client client, Addressee addressee) {
+    public Message(String text, Client client, Addressee addressee, Status status) {
         this.text = text;
         this.client = client;
         this.addressee = addressee;
+        this.status = status;
     }
 
     public enum Status {
