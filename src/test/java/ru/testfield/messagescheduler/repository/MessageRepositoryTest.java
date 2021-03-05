@@ -6,6 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ru.testfield.messagescheduler.MessageSchedulerApplication;
 import ru.testfield.messagescheduler.model.*;
 
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -45,21 +47,21 @@ public class MessageRepositoryTest {
     private void saveTest() {
         final Addressee addressee = addresseeRepository.findAll().get(0);
         final Client client = clientRepository.findAll().get(0);
-        createMessage(addressee,client,"text to send1", Message.Status.SCHEDULED);
-        createMessage(addressee,client,"text to send2", Message.Status.SENT);
-        createMessage(addressee,client,"text to send3", Message.Status.CANCELED);
-        createMessage(addressee,client,"text to send4", Message.Status.SCHEDULED);
-        createMessage(addressee,client,"text to send5", Message.Status.SENT);
+        createMessage(addressee,client,"text to send1", Message.MessageStatus.SCHEDULED, Set.of(MediaType.EMAIL));
+        createMessage(addressee,client,"text to send2", Message.MessageStatus.SENT, Set.of(MediaType.TELEGRAM));
+        createMessage(addressee,client,"text to send3", Message.MessageStatus.CANCELED, Set.of(MediaType.EMAIL));
+        createMessage(addressee,client,"text to send4", Message.MessageStatus.SCHEDULED, Set.of(MediaType.SMS));
+        createMessage(addressee,client,"text to send5", Message.MessageStatus.SENT, Set.of(MediaType.TELEGRAM));
     }
 
     private void findByStatusTest() {
-        assertEquals(2, messageRepository.findByStatus(Message.Status.SCHEDULED).size());
-        assertEquals(2, messageRepository.findByStatus(Message.Status.SENT).size());
-        assertEquals(1, messageRepository.findByStatus(Message.Status.CANCELED).size());
+        assertEquals(2, messageRepository.findByMessageStatus(Message.MessageStatus.SCHEDULED).size());
+        assertEquals(2, messageRepository.findByMessageStatus(Message.MessageStatus.SENT).size());
+        assertEquals(1, messageRepository.findByMessageStatus(Message.MessageStatus.CANCELED).size());
     }
 
-    private void createMessage(Addressee addressee, Client client, String textToSend, Message.Status status) {
-        final Message message = new Message(textToSend, client, addressee, status);
+    private void createMessage(Addressee addressee, Client client, String textToSend, Message.MessageStatus messageStatus, Set<MediaType> mediaTypes) {
+        final Message message = new Message(textToSend, client, addressee, messageStatus, mediaTypes);
         messageRepository.save(message);
     }
 

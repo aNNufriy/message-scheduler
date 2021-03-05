@@ -8,6 +8,6 @@ import ru.testfield.messagescheduler.model.Message;
 import java.util.List;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
-    @Query("SELECT msg FROM #{#entityName} AS msg WHERE msg.status LIKE :status")
-    List<Message> findByStatus(@Param("status") Message.Status status);
+    @Query("SELECT msg FROM #{#entityName} AS msg WHERE msg.messageStatus LIKE :messageStatus")
+    List<Message> findByMessageStatus(@Param("messageStatus") Message.MessageStatus messageStatus);
 }

@@ -10,6 +10,6 @@ import org.springframework.stereotype.Component;
 public class MessagingJob implements Job {
         @Override
         public void execute(JobExecutionContext context) {
-            System.out.println("hello, world");
+//            System.out.println("hello, world");
         }
 }
