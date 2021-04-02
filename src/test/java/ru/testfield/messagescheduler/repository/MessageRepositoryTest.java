@@ -6,6 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ru.testfield.messagescheduler.MessageSchedulerApplication;
 import ru.testfield.messagescheduler.model.*;
 
+import java.time.DayOfWeek;
+import java.time.ZonedDateTime;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -61,7 +63,8 @@ public class MessageRepositoryTest {
     }
 
     private void createMessage(Addressee addressee, Client client, String textToSend, Message.MessageStatus messageStatus, Set<MediaType> mediaTypes) {
-        final Message message = new Message(textToSend, client, addressee, messageStatus, mediaTypes);
+        final Message message = new Message(textToSend, client, addressee, messageStatus, mediaTypes, ZonedDateTime.now(),
+                0, Set.of(DayOfWeek.MONDAY,DayOfWeek.WEDNESDAY));
         messageRepository.save(message);
     }
 
