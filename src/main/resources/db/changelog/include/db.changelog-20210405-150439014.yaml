@@ -1,0 +1,8 @@
+databaseChangeLog:
+- changeSet:
+    id: 1617635085030-1
+    author: liquibase (generated)
+    changes:
+    - alterSequence:
+        sequenceName: hibernate_sequence
+
